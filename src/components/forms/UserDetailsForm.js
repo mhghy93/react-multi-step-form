@@ -1,36 +1,32 @@
-import React from 'react';
-import { makeStyles } from '@material-ui/core/styles';
+import React, { useState } from 'react';
 import Container from '@material-ui/core/Container';
 import { Typography } from '@material-ui/core';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
 
-import AppCard from './AppCard';
+import { formStyles } from './form.styles';
+
+import AppCard from '../cards/AppCard';
 import FormSteps from './FormSteps';
 
-const useStyles = makeStyles({
-  root: {
-    marginTop: '5rem',
-    display: 'flex',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  button: {
-    marginTop: '1rem',
-  },
-});
+const UserDetailsForm = ({ step, handleNextStep }) => {
+  const classes = formStyles();
 
-const MultiStepForm = () => {
-  const classes = useStyles();
+  const [activeStep, setActiveStep] = useState(0);
+
+  const handleNext = () => {
+    handleNextStep();
+    setActiveStep(step - 1);
+  };
 
   return (
     <Container>
-      <div className={classes.root}>
+      <div className={classes.form}>
         <AppCard>
           <Typography align="center" variant="h6" gutterBottom>
             User Registration
           </Typography>
-          <FormSteps />
+          <FormSteps activeStep={activeStep} />
           <Typography variant="h6">User Details</Typography>
           <form>
             <TextField
@@ -68,6 +64,7 @@ const MultiStepForm = () => {
               className={classes.button}
               variant="contained"
               color="primary"
+              onClick={handleNext}
             >
               Next
             </Button>
@@ -78,4 +75,4 @@ const MultiStepForm = () => {
   );
 };
 
-export default MultiStepForm;
+export default UserDetailsForm;

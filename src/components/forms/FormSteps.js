@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import Stepper from '@material-ui/core/Stepper';
 import Step from '@material-ui/core/Step';
@@ -19,9 +19,8 @@ function getSteps() {
   return ['User Details', 'User Address', 'Confirm'];
 }
 
-const FormSteps = () => {
+const FormSteps = ({ activeStep }) => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = useState(0);
   const steps = getSteps();
   return (
     <Stepper className={classes.stepper} activeStep={activeStep}>
