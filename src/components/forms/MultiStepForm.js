@@ -6,6 +6,18 @@ import UserConfirm from './UserConfirm';
 
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
+  const [formData, setFormData] = useState({
+    firstName: '',
+    lastName: '',
+    email: '',
+    password: '',
+    addressLineOne: '',
+    addressLineTwo: '',
+    country: '',
+    state: '',
+    city: '',
+    pincode: '',
+  });
 
   const handleNextStep = () => {
     setStep(step + 1);
@@ -19,12 +31,36 @@ const MultiStepForm = () => {
     setStep(1);
   };
 
+  const clearFormData = () => {
+    setFormData({
+      firstName: '',
+      lastName: '',
+      email: '',
+      password: '',
+      addressLineOne: '',
+      addressLineTwo: '',
+      country: '',
+      state: '',
+      city: '',
+      pincode: '',
+    });
+  };
+
   switch (step) {
     case 1:
-      return <UserDetailsForm step={step} handleNextStep={handleNextStep} />;
+      return (
+        <UserDetailsForm
+          formData={formData}
+          setFormData={setFormData}
+          step={step}
+          handleNextStep={handleNextStep}
+        />
+      );
     case 2:
       return (
         <UserAddressForm
+          formData={formData}
+          setFormData={setFormData}
           step={step}
           handleNextStep={handleNextStep}
           handlePreviousStep={handlePreviousStep}
@@ -33,15 +69,19 @@ const MultiStepForm = () => {
     case 3:
       return (
         <UserConfirm
+          formData={formData}
           step={step}
           handleNextStep={handleNextStep}
           handlePreviousStep={handlePreviousStep}
           handleResetStep={handleResetStep}
+          clearFormData={clearFormData}
         />
       );
     default:
       return (
         <UserDetailsForm
+          formData={formData}
+          setFormData={setFormData}
           step={step}
           handleNextStep={handleNextStep}
           handlePreviousStep={handlePreviousStep}

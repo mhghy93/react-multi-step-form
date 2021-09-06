@@ -1,4 +1,5 @@
 import React from 'react';
+import { useFormik } from 'formik';
 import Container from '@material-ui/core/Container';
 import { Typography } from '@material-ui/core';
 import FormControl from '@material-ui/core/FormControl';
@@ -13,30 +14,30 @@ import { formStyles } from './form.styles';
 import AppCard from '../cards/AppCard';
 import FormSteps from './FormSteps';
 
-const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
+const UserAddressForm = ({
+  formData,
+  setFormData,
+  step,
+  handleNextStep,
+  handlePreviousStep,
+}) => {
   const classes = formStyles();
 
   const [activeStep, setActiveStep] = React.useState(1);
-  const [country, setCountry] = React.useState('');
-  const [state, setState] = React.useState('');
-  const [city, setCity] = React.useState('');
+  const [direction, setDirection] = React.useState('previous');
 
   const handleNext = () => {
     handleNextStep();
     setActiveStep(step - 1);
   };
 
-  const handleCountryChange = (event) => {
-    setCountry(event.target.value);
-  };
-
-  const handleStateChange = (event) => {
-    setState(event.target.value);
-  };
-
-  const handleCityChange = (event) => {
-    setCity(event.target.value);
-  };
+  const formik = useFormik({
+    initialValues: formData,
+    onSubmit: (values) => {
+      setFormData(values);
+      direction === 'previous' ? handlePreviousStep() : handleNext();
+    },
+  });
 
   return (
     <Container>
@@ -47,12 +48,15 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
           </Typography>
           <FormSteps activeStep={activeStep} />
           <Typography variant="h6">User Address</Typography>
-          <form>
+          <form onSubmit={formik.handleSubmit}>
             <TextField
               type="text"
               id="addressLineOne"
               label="Address Line One"
               margin="dense"
+              name="addressLineOne"
+              onChange={formik.handleChange}
+              value={formik.values.addressLineOne}
               fullWidth
             />
 
@@ -61,6 +65,9 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
               id="addressLineTwo"
               label="Address Line Two"
               margin="dense"
+              name="addressLineTwo"
+              onChange={formik.handleChange}
+              value={formik.values.addressLineTwo}
               fullWidth
             />
 
@@ -69,8 +76,9 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={country}
-                onChange={handleCountryChange}
+                name="country"
+                onChange={formik.handleChange}
+                value={formik.values.country}
                 fullWidth
               >
                 <MenuItem value="">
@@ -85,8 +93,9 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={state}
-                onChange={handleStateChange}
+                name="state"
+                onChange={formik.handleChange}
+                value={formik.values.state}
                 fullWidth
               >
                 <MenuItem value="">
@@ -102,8 +111,9 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
               <Select
                 labelId="demo-simple-select-helper-label"
                 id="demo-simple-select-helper"
-                value={city}
-                onChange={handleCityChange}
+                name="city"
+                onChange={formik.handleChange}
+                value={formik.values.city}
                 fullWidth
               >
                 <MenuItem value="">
@@ -119,6 +129,9 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
               id="pincode"
               label="Pincode"
               margin="dense"
+              name="pincode"
+              onChange={formik.handleChange}
+              value={formik.values.pincode}
               fullWidth
             />
 
@@ -127,7 +140,8 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                onClick={handlePreviousStep}
+                type="submit"
+                onClick={() => setDirection('previous')}
               >
                 Previous
               </Button>
@@ -136,7 +150,8 @@ const UserAddressForm = ({ step, handleNextStep, handlePreviousStep }) => {
                 className={classes.button}
                 variant="contained"
                 color="primary"
-                onClick={handleNext}
+                type="submit"
+                onClick={() => setDirection('next')}
               >
                 Next
               </Button>
