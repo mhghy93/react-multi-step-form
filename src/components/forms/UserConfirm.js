@@ -13,7 +13,6 @@ const UserConfirm = ({
   step,
   handleNextStep,
   handlePreviousStep,
-  handleResetStep,
   clearFormData,
 }) => {
   const classes = formStyles();
@@ -35,7 +34,6 @@ const UserConfirm = ({
   const handleConfirm = () => {
     handleNextStep();
     setActiveStep(step - 1);
-    handleResetStep();
     clearFormData();
   };
 

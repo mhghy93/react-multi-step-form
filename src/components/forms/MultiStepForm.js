@@ -3,6 +3,7 @@ import React, { useState } from 'react';
 import UserDetailsForm from './UserDetailsForm';
 import UserAddressForm from './UserAddressForm';
 import UserConfirm from './UserConfirm';
+import FormSuccess from './FormSuccess';
 
 const MultiStepForm = () => {
   const [step, setStep] = useState(1);
@@ -73,10 +74,11 @@ const MultiStepForm = () => {
           step={step}
           handleNextStep={handleNextStep}
           handlePreviousStep={handlePreviousStep}
-          handleResetStep={handleResetStep}
           clearFormData={clearFormData}
         />
       );
+    case 4:
+      return <FormSuccess step={step} handleResetStep={handleResetStep} />;
     default:
       return (
         <UserDetailsForm

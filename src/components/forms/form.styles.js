@@ -18,4 +18,14 @@ export const formStyles = makeStyles({
     justifyContent: 'space-between',
     margin: '1rem 0 1rem 0',
   },
+  successMessage: {
+    display: 'flex',
+    justifyContent: 'start',
+    gap: '0.3rem',
+    margin: '1rem 0 1rem 0',
+  },
+  successHeading: {
+    display: 'flex',
+    justifyContent: 'center',
+  },
 });
